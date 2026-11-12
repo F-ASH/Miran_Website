@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Set up a session · Miran</title>
+  <link rel="icon" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="setup">
+  <main class="page page-narrow" style="max-width:1000px">
+    <div class="page-head"><div><h1>Set up a session</h1><p>Choose the role you are preparing for, then the type of session.</p></div></div>
+    <form id="setupForm" class="grid g-2" style="align-items:start">
+      <div class="card">
+        <h2>1. Role</h2>
+        <div class="field"><label for="field">Field</label><select id="field" name="field"></select></div>
+        <div class="field"><label for="role">Role</label><select id="role" name="role"></select></div>
+        <div class="field">
+          <label for="jd">or paste a job description <span class="muted">(optional)</span></label>
+          <textarea id="jd" name="jd" placeholder="Paste the job advert here. Miran will match questions to the requirements it finds."></textarea>
+          <div class="help" id="jdMatch">Miran will match questions to the requirements it finds.</div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>2. Session type</h2>
+        <label class="choice" data-type="full"><input type="radio" name="type" value="full"><span class="title">Full session</span>
+          <div class="desc">One question for each of the five EI skills. All nine measures run, so every skill gets a new score.</div></label>
+        <label class="choice" data-type="focus"><input type="radio" name="type" value="focus"><span class="title">Focus session</span> <span id="focusTag"></span>
+          <div class="desc">Five questions on one skill. Only that skill is measured and scored.</div></label>
+
+        <div id="focusBox" class="field hidden" style="margin-top:6px">
+          <label>Skill to focus on</label>
+          <div class="seg" style="margin-bottom:10px" id="focusMode"><button type="button" data-m="suggested" class="on">Suggested</button><button type="button" data-m="manual">Choose myself</button></div>
+          <div class="chips" id="focusChips"></div>
+          <div class="help" id="focusWhy"></div>
+        </div>
+
+        <div class="field">
+          <label>Difficulty</label>
+          <div class="seg" id="diff"><button type="button" data-d="basic" class="on">Basic</button><button type="button" data-d="advanced">Advanced</button></div>
+          <div class="help">Basic: general and behavioural questions. Advanced: more situational, pressure and follow-up questions.</div>
+        </div>
+        <div class="alert alert-warn" id="summary" style="margin-bottom:14px"></div>
+        <button class="btn btn-primary btn-block" type="submit">Check camera and start</button>
+      </div>
+    </form>
+  </main>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <script src="setup.js"></script>
+</body>
+</html>

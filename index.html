@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign in · Miran</title>
+  <meta name="description" content="Miran (مِران) — practise job interviews and get feedback organised by the five emotional intelligence skills.">
+  <link rel="icon" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="signin">
+  <main class="auth">
+    <section class="auth-brand" aria-label="About Miran">
+      <img class="auth-logo" src="miran-logo.png" alt="Miran">
+      <div>
+        <h1 class="auth-headline">Practise interviews.<br>See the evidence.<br><span>Improve each week.</span></h1>
+        <ul class="auth-points">
+          <li><span class="dot" style="background:var(--red)"></span>Answer role-matched questions on camera, then rate yourself before you see the results.</li>
+          <li><span class="dot" style="background:var(--blue-bright)"></span>Get a report organised by the five emotional intelligence skills, with the exact moment in your recording behind every point.</li>
+          <li><span class="dot" style="background:var(--red)"></span>Short lessons, levels and badges turn each weakness into your next practice step.</li>
+        </ul>
+      </div>
+      <p class="auth-foot">Practice only. Miran never shares your results with employers and makes no hiring decisions.</p>
+    </section>
+
+    <section class="auth-form-wrap">
+      <div class="auth-form">
+        <div class="tabs-auth" role="tablist">
+          <a href="index.html" class="active" role="tab" aria-selected="true">Sign in</a>
+          <a href="signup.html" role="tab" aria-selected="false">Create account</a>
+        </div>
+        <h1>Welcome back</h1>
+        <p class="muted">Sign in to continue your practice.</p>
+
+        <div id="formAlert" class="alert alert-error hidden" role="alert"></div>
+
+        <form id="signinForm" novalidate>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com">
+          </div>
+          <div class="field">
+            <div style="display:flex;justify-content:space-between;align-items:baseline">
+              <label for="password">Password</label>
+              <a href="#" id="forgot" class="small">Forgot password?</a>
+            </div>
+            <div style="position:relative">
+              <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Your password" style="padding-right:64px">
+              <button type="button" id="togglePw" class="btn btn-ghost btn-sm" style="position:absolute;right:4px;top:4px">Show</button>
+            </div>
+          </div>
+          <label class="check"><input type="checkbox" checked> Keep me signed in on this device</label>
+          <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+        </form>
+
+        <p class="small" style="text-align:center;margin-top:16px">New to Miran? <a href="signup.html">Create an account</a></p>
+
+        <div class="divider">Prototype accounts</div>
+        <div class="demo-box">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px">
+            <div><b style="color:var(--ink)">Candidate</b> · Sara, 5 sessions so far<br><span class="muted small">sara@example.com · Miran2026</span></div>
+            <button class="btn btn-outline btn-sm" id="fillDemo" type="button">Use</button>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+            <div><b style="color:var(--ink)">Administrator</b> · manages questions and lessons<br><span class="muted small">admin@miran.app · Admin2026</span></div>
+            <button class="btn btn-outline btn-sm" id="fillAdmin" type="button">Use</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <script src="auth.js"></script>
+</body>
+</html>

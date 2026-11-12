@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reports · Miran</title>
+  <link rel="icon" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="reports">
+  <main class="page" id="app"></main>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <script>
+  (async function () {
+    const M = window.MIRAN; await M.ready;
+    const { $, esc, engine } = M;
+    const u = M.auth.require("candidate");
+    M.shell("reports");
+    const ss = engine.sessionsOf(u.id);
+    $("#app").innerHTML = `
+      <div class="page-head"><div><h1>Reports</h1><p>Every session you complete gets a report organised by the five EI skills.</p></div>
+      <a class="btn btn-primary" href="setup.html">New session</a></div>
+      <div class="card">${ss.length ? `<table class="table">
+        <thead><tr><th>Session</th><th>Type</th><th>Role</th><th>Date</th>${M.COMPONENTS.map(c => `<th title="${esc(c.name)}">${c.short}</th>`).join("")}<th></th></tr></thead>
+        <tbody>${ss.slice().reverse().map(s => `<tr>
+          <td><b>S${ss.indexOf(s) + 1}</b></td>
+          <td>${s.type === "full" ? "Full" : "Focus · " + esc(M.compById(s.focus).name)}</td>
+          <td class="small">${esc(s.role)}</td><td class="small muted">${M.fmtDate(s.completedAt)}</td>
+          ${M.COMPONENTS.map(c => `<td>${s.compScores[c.id] == null ? `<span class="muted">—</span>` : s.compScores[c.id].toFixed(1)}</td>`).join("")}
+          <td style="text-align:right"><a class="btn btn-ghost btn-sm" href="report.html?id=${s.id}">Open →</a></td></tr>`).join("")}</tbody></table>
+        <p class="scale-note">Scores on a 0–10 scale. — means the skill was not measured in that session (focus sessions measure one skill).</p>`
+        : `<div class="empty"><h2>No reports yet</h2><p>Complete your first session to see a report here.</p><a class="btn btn-primary" href="setup.html">Start a session</a></div>`}
+      </div>`;
+  })();
+  </script>
+</body>
+</html>

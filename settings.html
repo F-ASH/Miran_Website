@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Settings · Miran</title>
+  <link rel="icon" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="settings">
+  <main class="page page-narrow" id="app"></main>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <script>
+  (async function () {
+    const M = window.MIRAN; await M.ready;
+    const { $, esc } = M;
+    const u = M.auth.require("candidate");
+    M.shell("");
+    const field = M.FIELDS.find(f => f.id === u.fieldId) || M.FIELDS[0];
+    $("#app").innerHTML = `
+      <h1>Settings &amp; privacy</h1><p class="muted">Your choices apply to future sessions straight away.</p>
+      <form id="profile" class="card" style="margin-bottom:20px">
+        <h2>Profile</h2>
+        <div class="grid g-2">
+          <div class="field"><label for="n">Full name</label><input id="n" type="text" value="${esc(u.name)}"></div>
+          <div class="field"><label for="e">Email</label><input id="e" type="email" value="${esc(u.email)}" disabled></div>
+          <div class="field"><label for="f">Field</label><select id="f">${M.FIELDS.map(x => `<option value="${x.id}" ${x.id === field.id ? "selected" : ""}>${esc(x.name)}</option>`).join("")}</select></div>
+          <div class="field"><label for="r">Role</label><select id="r"></select></div>
+          <div class="field"><label for="d">Interview date</label><input id="d" type="date" value="${esc(u.interviewDate || "")}"></div>
+        </div>
+        <button class="btn btn-primary">Save profile</button>
+      </form>
+      <div class="card" style="margin-bottom:20px">
+        <h2>Privacy</h2>
+        <label class="check"><input type="checkbox" id="cam" ${u.cameraMeasures !== false ? "checked" : ""}> <span><b>Camera-based measures</b> (eye contact and smiling). <span class="muted">When off, reports use content and speech only.</span></span></label>
+        <label class="check"><input type="checkbox" id="ad" ${u.autoDelete30 ? "checked" : ""}> <span><b>Delete recordings automatically after 30 days.</b> <span class="muted">Transcripts and results are kept.</span></span></label>
+        <p class="small muted">Consent given on ${M.fmtDate(u.consentAt)}. Results are visible to you only and are never shared with employers.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:16px">
+          <button class="btn btn-outline" id="delRec">Delete all my recordings</button>
+          <button class="btn btn-ghost" id="delAcc" style="color:#C42F2B">Delete my account</button>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Prototype</h2>
+        <p class="small muted">This is a front-end prototype: accounts, sessions and recordings are stored in this browser only.</p>
+        <button class="btn btn-outline" id="reset">Reset prototype data</button>
+      </div>`;
+    const fillRoles = () => { const fl = M.FIELDS.find(x => x.id === $("#f").value); $("#r").innerHTML = fl.roles.map(r => `<option ${r === u.role ? "selected" : ""}>${esc(r)}</option>`).join(""); };
+    $("#f").onchange = fillRoles; fillRoles();
+    $("#profile").onsubmit = e => { e.preventDefault(); u.name = $("#n").value.trim() || u.name; u.fieldId = $("#f").value; u.role = $("#r").value; u.interviewDate = $("#d").value || null; M.commit(); M.toast("✓ Profile saved"); };
+    $("#cam").onchange = e => { u.cameraMeasures = e.target.checked; M.commit(); M.toast(e.target.checked ? "Camera measures on" : "Camera measures off: reports will use content and speech only"); };
+    $("#ad").onchange = e => { u.autoDelete30 = e.target.checked; M.commit(); M.toast("✓ Saved"); };
+    $("#delRec").onclick = () => {
+      const m = M.modal(`<h2>Delete all recordings?</h2><p>Your videos are deleted permanently. Transcripts, scores and reports are kept.</p><div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost" id="c">Cancel</button><button class="btn btn-danger" id="y">Delete recordings</button></div>`);
+      $("#c", m).onclick = () => m.remove();
+      $("#y", m).onclick = async () => { for (const s of M.db().sessions.filter(s => s.userId === u.id)) { await M.rec.clearPrefix(s.id); s.hasVideo = false; s.answers.forEach(a => a.hasVideo = false); } M.commit(); m.remove(); M.toast("✓ Recordings deleted"); };
+    };
+    $("#delAcc").onclick = () => {
+      const m = M.modal(`<h2>Delete your account?</h2><p>All sessions, reports, recordings and lesson progress will be removed. This cannot be undone.</p><div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost" id="c">Cancel</button><button class="btn btn-danger" id="y">Delete account</button></div>`);
+      $("#c", m).onclick = () => m.remove();
+      $("#y", m).onclick = async () => { const d = M.db(); for (const s of d.sessions.filter(s => s.userId === u.id)) await M.rec.clearPrefix(s.id);
+        d.sessions = d.sessions.filter(s => s.userId !== u.id); d.lessonProgress = d.lessonProgress.filter(p => p.userId !== u.id); d.badges = d.badges.filter(b => b.userId !== u.id); d.users = d.users.filter(x => x.id !== u.id); M.commit(); M.auth.signOut(); };
+    };
+    $("#reset").onclick = () => M.resetDemo();
+  })();
+  </script>
+</body>
+</html>

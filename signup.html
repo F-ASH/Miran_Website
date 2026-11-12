@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Create account · Miran</title>
+  <link rel="icon" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="signup">
+  <main class="auth">
+    <section class="auth-brand" aria-label="About Miran">
+      <img class="auth-logo" src="miran-logo.png" alt="Miran">
+      <div>
+        <h1 class="auth-headline">Practise interviews.<br>See the evidence.<br><span>Improve each week.</span></h1>
+        <ul class="auth-points">
+          <li><span class="dot" style="background:var(--red)"></span>Five recorded answers per session, matched to the role you choose or a job description you paste.</li>
+          <li><span class="dot" style="background:var(--blue-bright)"></span>Feedback on self-awareness, self-regulation, motivation, empathy and social skill, each with evidence.</li>
+          <li><span class="dot" style="background:var(--red)"></span>Your recordings and results are visible to you only.</li>
+        </ul>
+      </div>
+      <p class="auth-foot">Practice only. Miran never shares your results with employers and makes no hiring decisions.</p>
+    </section>
+
+    <section class="auth-form-wrap">
+      <div class="auth-form">
+        <div class="tabs-auth" role="tablist">
+          <a href="index.html" role="tab" aria-selected="false">Sign in</a>
+          <a href="signup.html" class="active" role="tab" aria-selected="true">Create account</a>
+        </div>
+        <h1>Create your account</h1>
+        <p class="muted">It takes less than a minute. Next, you'll choose how your recordings are used.</p>
+
+        <form id="signupForm" novalidate>
+          <div class="field">
+            <label for="name">Full name</label>
+            <input id="name" name="name" type="text" autocomplete="name" placeholder="e.g. Sara Alharbi">
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com">
+          </div>
+          <div class="field">
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" autocomplete="new-password">
+            <div class="pw-meter"><span></span></div>
+            <div class="help" id="pwHint">At least 8 characters, with a number.</div>
+          </div>
+          <div class="field">
+            <label for="confirm">Confirm password</label>
+            <input id="confirm" name="confirm" type="password" autocomplete="new-password">
+          </div>
+          <label class="check"><input type="checkbox" name="terms"> <span>I agree to the <a href="#" onclick="return false">Terms of use</a> and <a href="#" onclick="return false">Privacy notice</a>.</span></label>
+          <div id="termsErr" class="error-text hidden" style="margin:-6px 0 12px">Please accept the terms to continue.</div>
+          <button type="submit" class="btn btn-primary btn-block">Create account</button>
+        </form>
+        <p class="small" style="text-align:center;margin-top:16px">Already have an account? <a href="index.html">Sign in</a></p>
+      </div>
+    </section>
+  </main>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <script src="auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Before your first session · Miran</title>
+  <link rel="icon" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="consent">
+  <header class="topbar"><div class="topbar-inner"><span class="brand"><img src="miran-logo.png" alt="Miran"></span>
+    <div style="flex:1"></div><span class="small muted">Step 2 of 2 · Account setup</span></div></header>
+  <main class="page page-narrow">
+    <div class="stepper" aria-hidden="true"><div class="done"></div><div class="now"></div></div>
+    <h1 id="consentTitle">Before your first session, <span id="who"></span></h1>
+    <p class="muted">Please read how your recordings are used. You can change these choices at any time in Settings.</p>
+
+    <form id="consentForm">
+      <div class="card" style="margin-bottom:20px">
+        <h2>What happens to your answers</h2>
+        <table class="table">
+          <thead><tr><th style="width:150px">Data</th><th>Where it goes</th></tr></thead>
+          <tbody>
+            <tr><td><b>Video</b></td><td>Stays on Miran's server. Used only to measure eye contact and smiling. Never used to label your emotions.</td></tr>
+            <tr><td><b>Audio</b></td><td>Sent to a speech-to-text service to create a transcript, then deleted there.</td></tr>
+            <tr><td><b>Transcript</b></td><td>Sent to a generative AI service to score content against a fixed, published rubric.</td></tr>
+            <tr><td><b>Results</b></td><td>Visible to you only. Never shared with employers.</td></tr>
+          </tbody>
+        </table>
+        <div style="margin-top:18px">
+          <label class="check"><input type="checkbox" name="agree"> <span><b>I agree</b> to my answers being recorded and processed as described above.</span></label>
+          <div id="agreeErr" class="error-text hidden" style="margin:-6px 0 12px 27px">You need to agree before you can record.</div>
+          <label class="check"><input type="checkbox" name="camera" checked> <span>Include camera-based measures (eye contact and smiling). <span class="muted">If unchecked, your report uses content and speech only.</span></span></label>
+          <label class="check"><input type="checkbox" name="autodel"> <span>Delete my recordings automatically after 30 days.</span></label>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:20px">
+        <h2>What are you preparing for?</h2>
+        <p class="muted small">Miran matches questions to your field and role. You can also paste a job description when you set up a session.</p>
+        <div class="grid g-3">
+          <div class="field"><label for="field">Field</label><select id="field" name="field"></select></div>
+          <div class="field"><label for="role">Role</label><select id="role" name="role"></select></div>
+          <div class="field"><label for="idate">Interview date <span class="muted">(optional)</span></label><input type="text" id="idate" name="idate" placeholder="YYYY-MM-DD" onfocus="this.type='date'"></div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:12px;align-items:center">
+        <button type="submit" class="btn btn-primary">Accept and continue</button>
+        <button type="button" class="btn btn-ghost" id="notNow">Not now</button>
+      </div>
+    </form>
+  </main>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <script src="auth.js"></script>
+</body>
+</html>
